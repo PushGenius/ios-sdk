@@ -1,0 +1,49 @@
+import Foundation
+
+/// Drop-in public surface matching OneSignal's user-model mobile SDK.
+/// Swap the package and call `OneSignal.setHost` (or `PushGenius.setHost`) before `initialize`.
+public enum OneSignal {
+  public static var User: UserNamespace { PushGenius.User }
+  public static var Notifications: NotificationsNamespace { PushGenius.Notifications }
+
+  public static func initialize(_ appId: String, withLaunchOptions launchOptions: [AnyHashable: Any]? = nil) {
+    PushGenius.initialize(appId, launchOptions: launchOptions)
+  }
+
+  public static func login(_ externalId: String) {
+    PushGenius.login(externalId)
+  }
+
+  public static func logout() {
+    PushGenius.logout()
+  }
+
+  public static func setHost(_ url: String) {
+    PushGenius.setHost(url)
+  }
+}
+
+public enum PushGenius {
+  static var appId: String = ""
+  static var host: String = "https://api.pushgeni.us"
+  public static var User = UserNamespace()
+  public static var Notifications = NotificationsNamespace()
+
+  public static func setHost(_ url: String) {
+    host = url.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+  }
+
+  public static func initialize(_ appId: String, launchOptions: [AnyHashable: Any]? = nil) {
+    self.appId = appId
+    DeviceTokenStore.shared.start()
+    Task { await Client.shared.register() }
+  }
+
+  public static func login(_ externalId: String) {
+    Task { await Client.shared.login(externalId: externalId) }
+  }
+
+  public static func logout() {
+    Task { await Client.shared.logout() }
+  }
+}
