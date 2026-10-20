@@ -45,18 +45,18 @@ public final class PushSubscription {
 
 public final class NotificationsNamespace {
   public func requestPermission(_ fallbackToSettings: Bool = true, completion: ((Bool) -> Void)? = nil) {
-    DeviceTokenStore.shared.requestPermission { granted in
+    DeviceTokenStore.shared.requestPermission(fallbackToSettings: fallbackToSettings) { granted in
       Task { await Client.shared.setPermission(granted) }
       completion?(granted)
     }
   }
 
   public func addClickListener(_ listener: @escaping (NotificationClickEvent) -> Void) {
-    Client.shared.clickListeners.append(listener)
+    Client.shared.addClickListener(listener)
   }
 
   public func addForegroundLifecycleListener(_ listener: @escaping (NotificationWillDisplayEvent) -> Void) {
-    Client.shared.foregroundListeners.append(listener)
+    Client.shared.addForegroundListener(listener)
   }
 }
 
