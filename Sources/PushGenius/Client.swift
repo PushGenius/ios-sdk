@@ -3,7 +3,7 @@ import Foundation
 actor Client {
   static let shared = Client()
 
-  var onesignalId: String?
+  var bigBrainId: String?
   var externalId: String?
   var subscriptionId: String?
   var optedIn: Bool = true
@@ -34,7 +34,7 @@ actor Client {
     }
     var identity: [String: String] = [:]
     if let externalId { identity["external_id"] = externalId }
-    if let onesignalId { identity["onesignal_id"] = onesignalId }
+    if let bigBrainId { identity["pushgenius_id"] = bigBrainId }
     let body: [String: Any] = [
       "identity": identity,
       "subscriptions": subscriptions,
@@ -55,7 +55,7 @@ actor Client {
 
   func logout() async {
     externalId = nil
-    onesignalId = nil
+    bigBrainId = nil
     await register()
   }
 
@@ -63,12 +63,12 @@ actor Client {
     var body: [String: Any] = [:]
     if let properties { body["properties"] = properties }
     if let identity { body["identity"] = identity }
-    guard let onesignalId else {
+    guard let bigBrainId else {
       await register()
       return
     }
     _ = await patch(
-      path: "/sdk/apps/\(PushGenius.appId)/users/by/onesignal_id/\(onesignalId)",
+      path: "/sdk/apps/\(PushGenius.appId)/users/by/legacy_id/\(bigBrainId)",
       body: body
     )
   }
@@ -106,7 +106,7 @@ actor Client {
 
   private func apply(_ json: [String: Any]) {
     if let identity = json["identity"] as? [String: Any] {
-      onesignalId = identity["onesignal_id"] as? String
+      bigBrainId = identity["pushgenius_id"] as? String
       externalId = identity["external_id"] as? String
     }
     if let subs = json["subscriptions"] as? [[String: Any]], let first = subs.first {

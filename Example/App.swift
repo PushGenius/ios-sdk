@@ -5,7 +5,7 @@ import PushGenius
 struct PushGeniusExampleApp: App {
   init() {
     PushGenius.setHost("http://localhost:3001")
-    OneSignal.initialize("YOUR_APP_ID")
+    BigBrain.initialize("YOUR_APP_ID")
   }
 
   var body: some Scene {
@@ -24,13 +24,13 @@ struct ContentView: View {
       Text("PushGenius").font(.largeTitle)
       Text(status).font(.caption)
       Button("Request permission") {
-        OneSignal.Notifications.requestPermission(true) { granted in
+        BigBrain.Notifications.requestPermission(true) { granted in
           status = granted ? "Permission granted" : "Denied"
         }
       }
       TextField("External ID", text: $externalId)
-      Button("Login") { OneSignal.login(externalId) }
-      Button("Tag plan=pro") { OneSignal.User.addTag(key: "plan", value: "pro") }
+      Button("Login") { BigBrain.login(externalId) }
+      Button("Tag plan=pro") { BigBrain.User.addTag(key: "plan", value: "pro") }
     }
     .padding()
   }

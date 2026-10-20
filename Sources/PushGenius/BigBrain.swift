@@ -1,8 +1,8 @@
 import Foundation
 
-/// Drop-in public surface matching OneSignal's user-model mobile SDK.
-/// Swap the package and call `OneSignal.setHost` (or `PushGenius.setHost`) before `initialize`.
-public enum OneSignal {
+/// Primary public surface of the SDK.
+/// Call `BigBrain.setHost` (or `PushGenius.setHost`) before `initialize`.
+public enum BigBrain {
   public static var User: UserNamespace { PushGenius.User }
   public static var Notifications: NotificationsNamespace { PushGenius.Notifications }
 

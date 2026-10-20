@@ -25,7 +25,7 @@ public final class UserNamespace {
     Task { await Client.shared.patch(identity: [label: id]) }
   }
 
-  public var onesignalId: String? { Client.shared.onesignalId }
+  public var bigBrainId: String? { Client.shared.bigBrainId }
   public var externalId: String? { Client.shared.externalId }
 }
 
