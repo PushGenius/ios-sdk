@@ -8,6 +8,10 @@ let package = Package(
     .library(name: "PushGenius", targets: ["PushGenius"]),
   ],
   targets: [
-    .target(name: "PushGenius", path: "Sources/PushGenius"),
+    .target(
+      name: "PushGenius",
+      path: "Sources/PushGenius",
+      resources: [.copy("PrivacyInfo.xcprivacy")]
+    ),
   ]
 )
