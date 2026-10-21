@@ -34,4 +34,4 @@ iOS doesn't run your app when a notification arrives in the background, so by de
 
 If you call `setHost`, also override the host in the extension: `override var host: String { "https://your-host" }`.
 
-Sample: `Example/App.swift`.
+Example app with the extension set up, for testing on a device: [`Example/`](Example/README.md).

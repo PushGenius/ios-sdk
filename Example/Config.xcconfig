@@ -1,0 +1,8 @@
+// Shared settings for the example. Put your own values in Local.xcconfig (not committed);
+// copy Local.example.xcconfig to start.
+PG_BUNDLE_ID = us.pushgeni.example
+DEVELOPMENT_TEAM =
+PUSHGENIUS_APP_ID =
+PUSHGENIUS_HOST =
+
+#include? "Local.xcconfig"

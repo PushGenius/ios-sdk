@@ -1,0 +1,64 @@
+# Generates PushGeniusExample.xcodeproj. The generated project is committed, so you only need
+# XcodeGen (https://github.com/yonaskolb/XcodeGen) after editing this file: `xcodegen` in this folder.
+name: PushGeniusExample
+options:
+  deploymentTarget:
+    iOS: "15.0"
+configFiles:
+  Debug: Config.xcconfig
+  Release: Config.xcconfig
+packages:
+  PushGenius:
+    path: ..
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.2.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    TARGETED_DEVICE_FAMILY: "1"
+targets:
+  PushGeniusExample:
+    type: application
+    platform: iOS
+    sources: [App]
+    dependencies:
+      - package: PushGenius
+        product: PushGenius
+      - target: NotificationService
+    entitlements:
+      path: App/App.entitlements
+      properties:
+        aps-environment: development
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: PushGenius
+        UILaunchScreen: {}
+        UIBackgroundModes: [remote-notification]
+        UISupportedInterfaceOrientations:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        PushGeniusAppId: $(PUSHGENIUS_APP_ID)
+        PushGeniusHost: $(PUSHGENIUS_HOST)
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(PG_BUNDLE_ID)
+    scheme: {}
+  NotificationService:
+    type: app-extension
+    platform: iOS
+    sources: [NotificationService]
+    dependencies:
+      - package: PushGenius
+        product: PushGeniusNotificationService
+    info:
+      path: NotificationService/Info.plist
+      properties:
+        CFBundleDisplayName: NotificationService
+        PushGeniusHost: $(PUSHGENIUS_HOST)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.usernotifications.service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).NotificationService
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(PG_BUNDLE_ID).NotificationService
